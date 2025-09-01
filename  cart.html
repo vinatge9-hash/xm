@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>Niyantri Cafe - Cart</title>
+  <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
+</head>
+<body class='bg-gradient-to-br from-yellow-50 to-amber-100 text-gray-800' style='font-family: Poppins, sans-serif'>
+  <header class='bg-white/70 backdrop-filter backdrop-blur-lg fixed w-full z-50'>
+    <nav class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
+      <a href='index.html' class='flex items-center gap-2'>
+        <svg width='28' height='28' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' aria-label='Coffee cup'>
+          <path d='M3 6h10a4 4 0 0 1 4 4v6' stroke='#6B4F22' stroke-width='2' stroke-linecap='round'/>
+        </svg>
+        <span class='font-semibold'>Niyantri Cafe</span>
+      </a>
+      <div class='flex items-center gap-4'>
+        <a href='index.html' class='text-sm font-medium'>Home</a>
+        <a href='menu.html' class='text-sm font-medium'>Menu</a>
+        <a href='cart.html' class='text-sm font-medium'>Cart (<span id='cart-count'>0</span>)</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class='pt-28'>
+    <section class='max-w-5xl mx-auto px-4'>
+      <h1 class='text-3xl font-bold mb-4'>Your Cart</h1>
+      <div id='cart-items-container' class='space-y-4'></div>
+      <div class='flex justify-between items-center mt-6 border-t pt-4'>
+        <span class='text-xl font-semibold'>Total</span>
+        <span class='text-xl font-semibold' id='cart-total'>0.00</span>
+      </div>
+      <div id='paypal-button-container' class='mt-6'></div>
+    </section>
+  </main>
+
+  <footer class='bg-gray-800 text-white py-6 mt-12'>
+    <div class='max-w-5xl mx-auto px-4 text-sm'>
+      <p>&copy; 2025 Niyantri Cafe</p>
+    </div>
+  </footer>
+
+  <script>
+    // Shared cart logic
+    function getCart(){ return JSON.parse(localStorage.getItem('shoppingCart')) || []; }
+    function saveCart(cart){ localStorage.setItem('shoppingCart', JSON.stringify(cart)); updateCartCount(); }
+    function addToCart(itemId, itemName, itemPrice){ const cart = getCart(); const existing = cart.find(i => i.id === itemId); if (existing) existing.quantity++; else cart.push({ id:itemId, name:itemName, price:itemPrice, quantity:1 }); saveCart(cart); }
+    function removeFromCart(itemId){ let cart = getCart(); cart = cart.filter(i => i.id !== itemId); saveCart(cart); renderCartPage(); }
+    function updateCartCount(){ const cart = getCart(); const total = cart.reduce((s,i)=> s + i.quantity, 0); const el = document.getElementById('cart-count'); if (el) el.textContent = total; }
+    function renderCartPage(){ const cart = getCart(); const container = document.getElementById('cart-items-container'); const totalEl = document.getElementById('cart-total'); if (!container || !totalEl) return; container.innerHTML = ''; if (cart.length === 0){ container.innerHTML = '<p>Your cart is empty.</p>'; totalEl.textContent = '0.00'; return; } let total = 0; cart.forEach(item => { const row = document.createElement('div'); row.className ='flex items-center justify-between border-b py-2'; row.innerHTML = `<span>${item.name} (x${item.quantity})</span><div><span>$${(item.price * item.quantity).toFixed(2)}</span><button onclick="removeFromCart('${item.id}')" class='ml-4 text-red-500 hover:text-red-700'>Remove</button></div>`; container.appendChild(row); total += item.price * item.quantity; }); totalEl.textContent = total.toFixed(2); renderPayPalButton(total); }
+    function renderPayPalButton(amount){ const container = document.getElementById('paypal-button-container'); if (!container) return; const ensure = () => { return new Promise((resolve) => { if (typeof paypal !== 'undefined') return resolve(); const s = document.createElement('script'); s.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=USD'; s.onload = resolve; document.head.appendChild(s); }); };
+      ensure().then(() => { container.innerHTML = ''; if (amount <= 0) return; paypal.Buttons({ createOrder: function(data, actions){ return actions.order.create({ purchase_units: [{ amount: { value: amount.toFixed(2) } }] }); }, onApprove: function(data, actions){ return actions.order.capture().then(function(details){ alert('Payment completed by ' + details.payer.name.given_name); localStorage.removeItem('shoppingCart'); updateCartCount(); renderCartPage(); }); } }).render('#paypal-button-container'); }); }
+    document.addEventListener('DOMContentLoaded', () => { updateCartCount(); renderCartPage(); });
+  </script>
+</body>
+</html>
