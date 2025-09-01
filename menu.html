@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>Niyantri Cafe - Menu</title>
+  <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lora:wght@400;700&display=swap' rel='stylesheet'>
+</head>
+<body class='bg-gradient-to-br from-yellow-50 to-amber-100 text-gray-800' style='font-family: Poppins, sans-serif'>
+  <header class='bg-white/70 backdrop-filter backdrop-blur-lg fixed w-full z-50'>
+    <nav class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
+      <a href='index.html' class='flex items-center gap-2'>
+        <svg width='28' height='28' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' aria-label='Coffee cup'>
+          <path d='M3 6h10a4 4 0 0 1 4 4v6' stroke='#6B4F22' stroke-width='2' stroke-linecap='round'/>
+        </svg>
+        <span class='font-semibold' style='font-family: Poppins, sans-serif'>Niyantri Cafe</span>
+      </a>
+      <div class='flex items-center gap-4'>
+        <a href='index.html' class='text-sm font-medium'>Home</a>
+        <a href='menu.html' class='text-sm font-medium'>Menu</a>
+        <a href='cart.html' class='text-sm font-medium'>Cart (<span id='cart-count'>0</span>)</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class='pt-24'>
+    <section class='max-w-7xl mx-auto px-4'>
+      <h1 class='text-3xl font-bold mb-4' style='font-family: Lora, serif'>Our Menu</h1>
+      <p class='mb-6 text-gray-700'>A curated list of coffee & drinks crafted with love.</p>
+      <div class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <!-- Espresso -->
+        <div class='bg-white/70 backdrop-filter backdrop-blur rounded-xl shadow-md p-4 flex flex-col'>
+          <img src="https://pixabay.com/get/gaecc73dd272b9e0d0b42a5f2fabd82b8f2fb4267d76c49725a9090558a9f0a8340b2a689bff2d5b97c5de8a724f8c71eccf704f39271e0ce823ef6f884186059_640.jpg" alt='Espresso' class='h-28 w-full object-cover rounded'/>
+          <h3 class='mt-2 font-semibold'>Espresso</h3>
+          <p class='text-sm text-gray-600'>Rich and bold</p>
+          <div class='mt-auto flex items-center justify-between'>
+            <span class='font-semibold'>$2.50</span>
+            <button class='px-3 py-2 bg-amber-600 text-white rounded' onclick="addToCart('espresso','Espresso',2.5)">Add</button>
+          </div>
+        </div>
+        <!-- Cappuccino -->
+        <div class='bg-white/70 backdrop-filter backdrop-blur rounded-xl shadow-md p-4 flex flex-col'>
+          <img src="https://pixabay.com/get/g2d2fd040a584e626f649034c422520a32efad837d20e47617173be6e17bb24feacb752e85eadedc1d27b5da388f949d9c3fb42c2c9486ef59c8f66ce7b65d978_640.jpg" alt='Cappuccino' class='h-28 w-full object-cover rounded'/>
+          <h3 class='mt-2 font-semibold'>Cappuccino</h3>
+          <p class='text-sm text-gray-600'>Creamy with cocoa notes</p>
+          <div class='mt-auto flex items-center justify-between'>
+            <span class='font-semibold'>$3.00</span>
+            <button class='px-3 py-2 bg-amber-600 text-white rounded' onclick="addToCart('cappuccino','Cappuccino',3.0)">Add</button>
+          </div>
+        </div>
+        <!-- Latte -->
+        <div class='bg-white/70 backdrop-filter backdrop-blur rounded-xl shadow-md p-4 flex flex-col'>
+          <img src="https://pixabay.com/get/gea3c57cae3c564175e43d0dd0fbf142d6d71ec00271018dfdf9ac792256685af0e9e6b04c4b6ff2fb4c1ed64a94976d65c7babfd5cebdab39e6729bb1430f1ae_640.jpg" alt='Latte' class='h-28 w-full object-cover rounded'/>
+          <h3 class='mt-2 font-semibold'>Latte</h3>
+          <p class='text-sm text-gray-600'>Silky milk, balanced espresso</p>
+          <div class='mt-auto flex items-center justify-between'>
+            <span class='font-semibold'>$3.50</span>
+            <button class='px-3 py-2 bg-amber-600 text-white rounded' onclick="addToCart('latte','Latte',3.5)">Add</button>
+          </div>
+        </div>
+        <!-- Iced -->
+        <div class='bg-white/70 backdrop-filter backdrop-blur rounded-xl shadow-md p-4 flex flex-col'>
+          <img src="https://images.pexels.com/photos/33112272/pexels-photo-33112272.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt='Iced Coffee' class='h-28 w-full object-cover rounded'/>
+          <h3 class='mt-2 font-semibold'>Iced Coffee</h3>
+          <p class='text-sm text-gray-600'>Refreshing and crisp</p>
+          <div class='mt-auto flex items-center justify-between'>
+            <span class='font-semibold'>$2.99</span>
+            <button class='px-3 py-2 bg-amber-600 text-white rounded' onclick="addToCart('iced','Iced Coffee',2.99)">Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class='bg-gray-800 text-white py-6 mt-12'>
+    <div class='max-w-7xl mx-auto px-4 text-sm'>
+      <p>&copy; 2025 Niyantri Cafe</p>
+    </div>
+  </footer>
+
+  <script src='https://unpkg.com/swiper/swiper-bundle.min.js'></script>
+  <script>
+    var swiper = new Swiper('.swiper-container', { loop:true, pagination:{el:'.swiper-pagination', clickable:true}, navigation:{nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev'}, autoplay:{delay:5000}});
+  </script>
+
+  <script>
+    function getCart(){ return JSON.parse(localStorage.getItem('shoppingCart')) || []; }
+    function saveCart(cart){ localStorage.setItem('shoppingCart', JSON.stringify(cart)); updateCartCount(); }
+    function addToCart(itemId, itemName, itemPrice){ const cart = getCart(); const existing = cart.find(i => i.id === itemId); if (existing) existing.quantity++; else cart.push({ id:itemId, name:itemName, price:itemPrice, quantity:1 }); saveCart(cart); }
+    function updateCartCount(){ const cart = getCart(); const total = cart.reduce((s,i)=> s + i.quantity, 0); const el = document.getElementById('cart-count'); if (el) el.textContent = total; }
+    document.addEventListener('DOMContentLoaded', ()=>{ updateCartCount(); });
+  </script>
+</body>
+</html>
